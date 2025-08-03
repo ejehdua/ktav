@@ -18,21 +18,27 @@
       background-repeat: no-repeat;
       background-position: center;
       width: 800px;
-      height: 500px;
+      height: 700px;
       padding: 40px;
       direction: rtl;
+      text-align: center;
       vertical-align: middle;
-      text-align: right;
     }
 
     .hebrew-text {
       font-family: 'evyohep', 'Times New Roman', serif;
-      font-size: 2.8rem;
       color: #3d2f1f;
       text-shadow: 
         2px 2px 4px rgba(101, 85, 63, 0.4),
         0 0 8px rgba(139, 115, 85, 0.2);
       line-height: 1.6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      word-wrap: break-word;
+      padding: 0 20px;
     }
 
     .input-field {
@@ -77,8 +83,8 @@
   <table>
     <tr>
       <td class="scroll-cell">
-        <div id="displayText" class="hebrew-text">
-          ברוכים הבאים למחולל המגילה
+        <div id="displayText" class="hebrew-text" style="font-size: 2.8rem;">
+          <!-- טקסט יוצג כאן -->
         </div>
       </td>
     </tr>
@@ -88,7 +94,17 @@
     function updateText() {
       const input = document.getElementById('hebrewInput').value.trim();
       const display = document.getElementById('displayText');
-      display.textContent = input || 'ברוכים הבאים למחולל המגילה';
+      const wordCount = input.split(/\s+/).filter(Boolean).length;
+
+      // קביעת גודל פונט דינמי:
+      let fontSize = 2.8; // rem
+      if (wordCount > 30) {
+        const extra = wordCount - 30;
+        fontSize = Math.max(1.4, 2.8 - extra * 0.05); // כל מילה מורידה 0.05rem, עד גודל מינימלי
+      }
+
+      display.textContent = input;
+      display.style.fontSize = fontSize + 'rem';
     }
   </script>
 
