@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>מגילה</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
     @font-face {
       font-family: 'evyohep';
@@ -57,6 +58,7 @@
       color: #3d2f1f;
       border-radius: 12px;
       transition: all 0.3s ease;
+      margin: 0.5rem;
     }
 
     .ancient-button:hover {
@@ -78,11 +80,14 @@
     dir="rtl"
   ></textarea>
 
-  <button onclick="updateText()" class="ancient-button">✍ רשום בכתב עברי קדום</button>
+  <div class="flex flex-wrap justify-center">
+    <button onclick="updateText()" class="ancient-button">✍ רשום בכתב עברי קדום</button>
+    <button onclick="downloadScroll()" class="ancient-button">📥 הורדת המגילה</button>
+  </div>
 
   <table>
     <tr>
-      <td class="scroll-cell">
+      <td id="scrollCell" class="scroll-cell">
         <div id="displayText" class="hebrew-text" style="font-size: 2.8rem;">
           <!-- טקסט יוצג כאן -->
         </div>
@@ -96,15 +101,28 @@
       const display = document.getElementById('displayText');
       const wordCount = input.split(/\s+/).filter(Boolean).length;
 
-      // קביעת גודל פונט דינמי:
+      // שינוי גודל פונט לפי כמות מילים
       let fontSize = 2.8; // rem
       if (wordCount > 30) {
         const extra = wordCount - 30;
-        fontSize = Math.max(1.4, 2.8 - extra * 0.05); // כל מילה מורידה 0.05rem, עד גודל מינימלי
+        fontSize = Math.max(1.4, 2.8 - extra * 0.05);
       }
 
       display.textContent = input;
       display.style.fontSize = fontSize + 'rem';
+    }
+
+    function downloadScroll() {
+      const scrollElement = document.getElementById('scrollCell');
+      html2canvas(scrollElement, {
+        backgroundColor: null,
+        scale: 2
+      }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'megila.png';
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+      });
     }
   </script>
 
