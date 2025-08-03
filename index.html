@@ -2,231 +2,100 @@
 <html lang="he" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hebrew Scroll Text Generator</title>
+    <title>מחולל מגילה עברית</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @font-face {
             font-family: 'Evyop';
             src: url('evyop.ttf') format('truetype');
-            font-display: swap;
         }
-        
-        .parchment-bg {
-            background: linear-gradient(45deg, #f4e4bc 0%, #e8d5a3 25%, #f0e1b8 50%, #e6d29f 75%, #f2e3ba 100%);
-            background-size: 400% 400%;
-            animation: parchmentShimmer 8s ease-in-out infinite;
-            position: relative;
+
+        body {
+            background-color: #fef9c3;
         }
-        
-        .parchment-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                radial-gradient(circle at 20% 30%, rgba(139, 115, 85, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 70%, rgba(160, 130, 98, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 40% 80%, rgba(101, 85, 63, 0.06) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        
-        @keyframes parchmentShimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-        
-        .scroll-border {
+
+        .scroll-bg {
+            background-image: url('scroll.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             border: 8px solid #8b7355;
             border-radius: 20px;
-            box-shadow: 
-                inset 0 0 20px rgba(139, 115, 85, 0.3),
-                0 8px 32px rgba(0, 0, 0, 0.2);
+            box-shadow: inset 0 0 20px rgba(139, 115, 85, 0.3), 0 8px 32px rgba(0, 0, 0, 0.2);
+            min-height: 400px;
         }
-        
-        .hebrew-text {
-            font-family: 'Evyop', 'Times New Roman', serif;
-            text-shadow: 
-                2px 2px 4px rgba(101, 85, 63, 0.4),
-                0 0 8px rgba(139, 115, 85, 0.2);
+
+        .hebrew-display {
+            font-family: 'Evyop';
+            font-size: 3rem;
             color: #3d2f1f;
-            filter: sepia(20%) contrast(110%);
-            line-height: 1.4;
+            text-align: center;
+            padding: 40px;
+            white-space: pre-wrap;
+            line-height: 1.5;
         }
-        
-        .text-glow {
-            background: rgba(244, 228, 188, 0.8);
-            border-radius: 15px;
-            padding: 20px;
-            border: 2px solid rgba(139, 115, 85, 0.3);
-            backdrop-filter: blur(1px);
-        }
-        
+
         .input-field {
-            font-family: 'Evyop', 'Times New Roman', serif;
-            background: rgba(255, 255, 255, 0.9);
+            font-size: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+            padding: 15px;
             border: 3px solid #8b7355;
             border-radius: 10px;
-            box-shadow: inset 0 2px 8px rgba(139, 115, 85, 0.2);
+            margin: 0 auto;
+            display: block;
         }
-        
-        .ancient-button {
-            background: linear-gradient(145deg, #d4c4a8, #b8a082);
-            border: 3px solid #8b7355;
-            box-shadow: 
-                0 4px 8px rgba(0, 0, 0, 0.2),
-                inset 0 1px 3px rgba(255, 255, 255, 0.3);
-            transition: all 0.3s ease;
+
+        .button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: #e6c149;
+            color: #2d1f0f;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        
-        .ancient-button:hover {
-            background: linear-gradient(145deg, #e0d0b4, #c4b48e);
-            transform: translateY(-2px);
-            box-shadow: 
-                0 6px 12px rgba(0, 0, 0, 0.3),
-                inset 0 1px 3px rgba(255, 255, 255, 0.4);
-        }
-        
-        .ancient-button:active {
-            transform: translateY(0);
-            box-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.2),
-                inset 0 1px 3px rgba(255, 255, 255, 0.3);
+
+        .button:hover {
+            background: #d4af37;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 p-4">
-    <div class="max-w-4xl mx-auto">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-amber-900 mb-2">מחולל טקסט על מגילה עתיקה</h1>
-            <p class="text-lg text-amber-700">הכנס טקסט בעברית וראה אותו על רקע מגילה עתיקה</p>
-        </div>
-        
-        <!-- Input Section -->
-        <div class="mb-8 text-center">
-            <textarea 
-                id="hebrewInput" 
-                placeholder="הכנס כאן טקסט בעברית..."
-                class="input-field w-full max-w-2xl h-24 p-4 text-xl text-right resize-none focus:outline-none focus:ring-4 focus:ring-amber-300"
-                dir="rtl"
-            ></textarea>
-            <div class="mt-4">
-                <button 
-                    onclick="updateText()" 
-                    class="ancient-button px-8 py-3 text-lg font-semibold text-amber-900 rounded-lg"
-                >
-                    עדכן טקסט על המגילה
-                </button>
-            </div>
-        </div>
-        
-        <!-- Scroll Display -->
-        <div class="mb-8">
-            <div id="scrollContainer" class="parchment-bg scroll-border min-h-96 flex items-center justify-center p-8">
-                <div class="text-glow max-w-3xl">
-                    <div id="displayText" class="hebrew-text text-4xl md:text-5xl lg:text-6xl text-center leading-relaxed">
-                        ברוכים הבאים למחולל המגילה
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Screenshot Button -->
-        <div class="text-center mb-8">
-            <button 
-                onclick="takeScreenshot()" 
-                class="ancient-button px-10 py-4 text-xl font-bold text-amber-900 rounded-lg"
-            >
-                📸 צלם מסך לשמירה
-            </button>
-            <p class="text-sm text-amber-600 mt-2">לחץ כדי לשמור את המגילה כתמונה</p>
-        </div>
-        
-        <!-- Instructions -->
-        <div class="bg-white/80 rounded-lg p-6 border-2 border-amber-200">
-            <h3 class="text-xl font-bold text-amber-900 mb-3">הוראות שימוש:</h3>
-            <ul class="text-amber-800 space-y-2 text-right">
-                <li>• הכנס טקסט בעברית בתיבה למעלה</li>
-                <li>• לחץ על "עדכן טקסט על המגילה" כדי לראות את הטקסט על המגילה</li>
-                <li>• השתמש בכפתור "צלם מסך לשמירה" כדי לשמור את התוצאה</li>
-                <li>• הטקסט יוצג בגופן עתיק מיוחד על רקע מגילה אותנטי</li>
-            </ul>
+<body class="p-10">
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-amber-900 mb-2">מחולל מגילה עברית</h1>
+        <p class="text-lg text-amber-700">כתוב בעברית — זה יופיע כמו כתב עתיק על המגילה</p>
+    </div>
+
+    <div class="text-center mb-6">
+        <textarea id="hebrewInput" class="input-field" rows="4" placeholder="כתוב כאן בעברית..."></textarea>
+        <button class="button" onclick="updateScrollText()">עדכן מגילה</button>
+    </div>
+
+    <div id="scrollContainer" class="scroll-bg flex items-center justify-center">
+        <div id="displayText" class="hebrew-display">
+            ברוכים הבאים
         </div>
     </div>
 
     <script>
-        function updateText() {
-            const input = document.getElementById('hebrewInput').value.trim();
-            const displayElement = document.getElementById('displayText');
-            
-            if (input) {
-                displayElement.textContent = input;
-                // Add a subtle animation when text updates
-                displayElement.style.opacity = '0';
-                setTimeout(() => {
-                    displayElement.style.opacity = '1';
-                }, 100);
-            } else {
-                displayElement.textContent = 'ברוכים הבאים למחולל המגילה';
-            }
+        const keyboardMap = {
+            'א':'t','ב':'c','ג':'d','ד':'s','ה':'v','ו':'u','ז':'z','ח':'j','ט':'y',
+            'י':'h','כ':'f','ך':'f','ל':'k','מ':'n','ם':'n','נ':'b','ן':'b','ס':'x',
+            'ע':'g','פ':'p','ף':'p','צ':'m','ץ':'m','ק':'e','ר':'r','ש':'a','ת':',',
+            ' ':' ','.':'.',',':',','\n':'\n'
+        };
+
+        function convertHebrewToFakeLatin(text) {
+            return text.split('').map(char => keyboardMap[char] || char).join('');
         }
-        
-        function takeScreenshot() {
-            const scrollContainer = document.getElementById('scrollContainer');
-            
-            // Create a temporary message
-            const originalButton = event.target;
-            const originalText = originalButton.textContent;
-            
-            originalButton.textContent = '📷 מכין תמונה...';
-            originalButton.disabled = true;
-            
-            // Use html2canvas if available, otherwise show instructions
-            if (typeof html2canvas !== 'undefined') {
-                html2canvas(scrollContainer, {
-                    backgroundColor: null,
-                    scale: 2,
-                    useCORS: true
-                }).then(canvas => {
-                    // Create download link
-                    const link = document.createElement('a');
-                    link.download = 'hebrew-scroll.png';
-                    link.href = canvas.toDataURL();
-                    link.click();
-                    
-                    // Reset button
-                    originalButton.textContent = originalText;
-                    originalButton.disabled = false;
-                });
-            } else {
-                // Fallback: Show instructions for manual screenshot
-                alert('לצילום מסך:\n\n1. לחץ על מקש Print Screen (או Cmd+Shift+4 במק)\n2. פתח תוכנת עריכת תמונות\n3. הדבק את התמונה (Ctrl+V)\n4. חתך את אזור המגילה\n5. שמור את הקובץ\n\nאו השתמש בכלי צילום המסך של הדפדפן');
-                
-                // Reset button
-                setTimeout(() => {
-                    originalButton.textContent = originalText;
-                    originalButton.disabled = false;
-                }, 2000);
-            }
+
+        function updateScrollText() {
+            const inputText = document.getElementById('hebrewInput').value;
+            const fakeLatin = convertHebrewToFakeLatin(inputText);
+            document.getElementById('displayText').textContent = fakeLatin || 'ברוכים הבאים';
         }
-        
-        // Allow Enter key to update text
-        document.getElementById('hebrewInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                updateText();
-            }
-        });
-        
-        // Auto-update text as user types (with debounce)
-        let timeout;
-        document.getElementById('hebrewInput').addEventListener('input', function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(updateText, 500);
-        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9695aca310ae94da',t:'MTc1NDIyMjYzMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
