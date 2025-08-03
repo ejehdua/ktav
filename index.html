@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>מחולל מגילה</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>מגילה עם טקסט</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @font-face {
@@ -12,38 +12,29 @@
             font-display: swap;
         }
 
-        .parchment-bg {
+        .scroll-cell {
             background-image: url('scroll.png');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            position: relative;
-        }
-
-        .scroll-border {
             border: 8px solid #8b7355;
             border-radius: 20px;
-            box-shadow: 
-                inset 0 0 20px rgba(139, 115, 85, 0.3),
-                0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            min-height: 400px;
+            vertical-align: middle;
+            text-align: right;
+            direction: rtl;
         }
 
         .hebrew-text {
             font-family: 'evyohep', 'Times New Roman', serif;
+            font-size: 2.5rem;
+            color: #3d2f1f;
             text-shadow: 
                 2px 2px 4px rgba(101, 85, 63, 0.4),
                 0 0 8px rgba(139, 115, 85, 0.2);
-            color: #3d2f1f;
+            line-height: 1.6;
             filter: sepia(20%) contrast(110%);
-            line-height: 1.4;
-        }
-
-        .text-glow {
-            background: rgba(244, 228, 188, 0.8);
-            border-radius: 15px;
-            padding: 20px;
-            border: 2px solid rgba(139, 115, 85, 0.3);
-            backdrop-filter: blur(1px);
         }
 
         .input-field {
@@ -57,140 +48,62 @@
         .ancient-button {
             background: linear-gradient(145deg, #d4c4a8, #b8a082);
             border: 3px solid #8b7355;
-            box-shadow: 
-                0 4px 8px rgba(0, 0, 0, 0.2),
-                inset 0 1px 3px rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #3d2f1f;
+            border-radius: 12px;
             transition: all 0.3s ease;
         }
 
         .ancient-button:hover {
             background: linear-gradient(145deg, #e0d0b4, #c4b48e);
             transform: translateY(-2px);
-            box-shadow: 
-                0 6px 12px rgba(0, 0, 0, 0.3),
-                inset 0 1px 3px rgba(255, 255, 255, 0.4);
         }
 
         .ancient-button:active {
             transform: translateY(0);
-            box-shadow: 
-                0 2px 4px rgba(0, 0, 0, 0.2),
-                inset 0 1px 3px rgba(255, 255, 255, 0.3);
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 p-4">
-    <div class="max-w-4xl mx-auto">
-        <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-amber-900 mb-2">מחולל טקסט על מגילה עתיקה</h1>
-            <p class="text-lg text-amber-700">הכנס טקסט בעברית וראה אותו על רקע מגילה עתיקה</p>
-        </div>
+<body class="bg-amber-50 p-6">
 
-        <div class="mb-8 text-center">
-            <textarea 
-                id="hebrewInput" 
-                placeholder="הכנס כאן טקסט בעברית..."
-                class="input-field w-full max-w-2xl h-24 p-4 text-xl text-right resize-none focus:outline-none focus:ring-4 focus:ring-amber-300"
-                dir="rtl"
-            ></textarea>
-            <div class="mt-4">
-                <button 
-                    onclick="updateText()" 
-                    class="ancient-button px-8 py-3 text-lg font-semibold text-amber-900 rounded-lg"
-                >
-                    עדכן טקסט על המגילה
-                </button>
-            </div>
-        </div>
+    <div class="max-w-4xl mx-auto text-center mb-6">
+        <h1 class="text-4xl font-bold text-amber-900 mb-2">מחולל מגילה</h1>
+        <p class="text-lg text-amber-700">כתיבה על מגילה בעברית</p>
+    </div>
 
-        <div class="mb-8">
-            <div id="scrollContainer" class="parchment-bg scroll-border min-h-96 flex items-center justify-center p-8">
-                <div class="text-glow max-w-3xl">
-                    <div id="displayText" class="hebrew-text text-4xl md:text-5xl lg:text-6xl text-center leading-relaxed">
+    <div class="text-center mb-6">
+        <textarea 
+            id="hebrewInput"
+            class="input-field w-full max-w-2xl h-24 p-4 text-xl text-right resize-none focus:outline-none focus:ring-4 focus:ring-amber-300"
+            placeholder="הכנס טקסט..."
+            dir="rtl"
+        ></textarea>
+        <div class="mt-4">
+            <button onclick="updateText()" class="ancient-button">📜 עדכן טקסט</button>
+        </div>
+    </div>
+
+    <div class="max-w-5xl mx-auto mb-10">
+        <table class="w-full">
+            <tr>
+                <td class="scroll-cell">
+                    <div id="displayText" class="hebrew-text">
                         ברוכים הבאים למחולל המגילה
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="text-center mb-8">
-            <button 
-                onclick="takeScreenshot()" 
-                class="ancient-button px-10 py-4 text-xl font-bold text-amber-900 rounded-lg"
-            >
-                📸 צלם מסך לשמירה
-            </button>
-            <p class="text-sm text-amber-600 mt-2">לחץ כדי לשמור את המגילה כתמונה</p>
-        </div>
-
-        <div class="bg-white/80 rounded-lg p-6 border-2 border-amber-200">
-            <h3 class="text-xl font-bold text-amber-900 mb-3">הוראות שימוש:</h3>
-            <ul class="text-amber-800 space-y-2 text-right">
-                <li>• הכנס טקסט בעברית בתיבה למעלה</li>
-                <li>• לחץ על "עדכן טקסט על המגילה" כדי לראות את הטקסט על המגילה</li>
-                <li>• השתמש בכפתור "צלם מסך לשמירה" כדי לשמור את התוצאה</li>
-                <li>• הטקסט יוצג בגופן עתיק מיוחד על רקע מגילה אותנטי</li>
-            </ul>
-        </div>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <script>
         function updateText() {
             const input = document.getElementById('hebrewInput').value.trim();
-            const displayElement = document.getElementById('displayText');
-            
-            if (input) {
-                displayElement.textContent = input;
-                displayElement.style.opacity = '0';
-                setTimeout(() => {
-                    displayElement.style.opacity = '1';
-                }, 100);
-            } else {
-                displayElement.textContent = 'ברוכים הבאים למחולל המגילה';
-            }
+            const display = document.getElementById('displayText');
+            display.textContent = input || 'ברוכים הבאים למחולל המגילה';
         }
-
-        function takeScreenshot() {
-            const scrollContainer = document.getElementById('scrollContainer');
-            const originalButton = event.target;
-            const originalText = originalButton.textContent;
-            originalButton.textContent = '📷 מכין תמונה...';
-            originalButton.disabled = true;
-
-            if (typeof html2canvas !== 'undefined') {
-                html2canvas(scrollContainer, {
-                    backgroundColor: null,
-                    scale: 2,
-                    useCORS: true
-                }).then(canvas => {
-                    const link = document.createElement('a');
-                    link.download = 'hebrew-scroll.png';
-                    link.href = canvas.toDataURL();
-                    link.click();
-                    originalButton.textContent = originalText;
-                    originalButton.disabled = false;
-                });
-            } else {
-                alert('לצילום מסך:\n\n1. לחץ על מקש Print Screen (או Cmd+Shift+4 במק)\n2. פתח תוכנת עריכת תמונות\n3. הדבק את התמונה (Ctrl+V)\n4. חתך את אזור המגילה\n5. שמור את הקובץ');
-                setTimeout(() => {
-                    originalButton.textContent = originalText;
-                    originalButton.disabled = false;
-                }, 2000);
-            }
-        }
-
-        document.getElementById('hebrewInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                updateText();
-            }
-        });
-
-        let timeout;
-        document.getElementById('hebrewInput').addEventListener('input', function() {
-            clearTimeout(timeout);
-            timeout = setTimeout(updateText, 500);
-        });
     </script>
+
 </body>
 </html>
