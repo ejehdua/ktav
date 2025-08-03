@@ -1,109 +1,96 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>מגילה עם טקסט</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        @font-face {
-            font-family: 'evyohep';
-            src: url('evyohep.ttf') format('truetype');
-            font-display: swap;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>מגילה</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: 'evyohep';
+      src: url('evyohep.ttf') format('truetype');
+      font-display: swap;
+    }
 
-        .scroll-cell {
-            background-image: url('scroll.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            border: 8px solid #8b7355;
-            border-radius: 20px;
-            padding: 40px;
-            min-height: 400px;
-            vertical-align: middle;
-            text-align: right;
-            direction: rtl;
-        }
+    .scroll-cell {
+      background-image: url('scroll.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 800px;
+      height: 500px;
+      padding: 40px;
+      direction: rtl;
+      vertical-align: middle;
+      text-align: right;
+    }
 
-        .hebrew-text {
-            font-family: 'evyohep', 'Times New Roman', serif;
-            font-size: 2.5rem;
-            color: #3d2f1f;
-            text-shadow: 
-                2px 2px 4px rgba(101, 85, 63, 0.4),
-                0 0 8px rgba(139, 115, 85, 0.2);
-            line-height: 1.6;
-            filter: sepia(20%) contrast(110%);
-        }
+    .hebrew-text {
+      font-family: 'evyohep', 'Times New Roman', serif;
+      font-size: 2.8rem;
+      color: #3d2f1f;
+      text-shadow: 
+        2px 2px 4px rgba(101, 85, 63, 0.4),
+        0 0 8px rgba(139, 115, 85, 0.2);
+      line-height: 1.6;
+    }
 
-        .input-field {
-            font-family: 'evyohep', 'Times New Roman', serif;
-            background: rgba(255, 255, 255, 0.9);
-            border: 3px solid #8b7355;
-            border-radius: 10px;
-            box-shadow: inset 0 2px 8px rgba(139, 115, 85, 0.2);
-        }
+    .input-field {
+      font-family: 'Times New Roman', serif;
+      background: #fff;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+    }
 
-        .ancient-button {
-            background: linear-gradient(145deg, #d4c4a8, #b8a082);
-            border: 3px solid #8b7355;
-            padding: 10px 20px;
-            font-weight: bold;
-            font-size: 1.2rem;
-            color: #3d2f1f;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
+    .ancient-button {
+      background: linear-gradient(145deg, #d4c4a8, #b8a082);
+      border: 3px solid #8b7355;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #3d2f1f;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
 
-        .ancient-button:hover {
-            background: linear-gradient(145deg, #e0d0b4, #c4b48e);
-            transform: translateY(-2px);
-        }
+    .ancient-button:hover {
+      background: linear-gradient(145deg, #e0d0b4, #c4b48e);
+      transform: translateY(-2px);
+    }
 
-        .ancient-button:active {
-            transform: translateY(0);
-        }
-    </style>
+    .ancient-button:active {
+      transform: translateY(0);
+    }
+  </style>
 </head>
-<body class="bg-amber-50 p-6">
+<body class="bg-amber-50 p-6 flex flex-col items-center space-y-6">
 
-    <div class="max-w-4xl mx-auto text-center mb-6">
-        <h1 class="text-4xl font-bold text-amber-900 mb-2">מחולל מגילה</h1>
-        <p class="text-lg text-amber-700">כתיבה על מגילה בעברית</p>
-    </div>
+  <textarea 
+    id="hebrewInput"
+    class="input-field w-full max-w-2xl h-24 p-4 text-xl text-right resize-none focus:outline-none focus:ring-4 focus:ring-amber-300"
+    placeholder="הכנס טקסט..."
+    dir="rtl"
+  ></textarea>
 
-    <div class="text-center mb-6">
-        <textarea 
-            id="hebrewInput"
-            class="input-field w-full max-w-2xl h-24 p-4 text-xl text-right resize-none focus:outline-none focus:ring-4 focus:ring-amber-300"
-            placeholder="הכנס טקסט..."
-            dir="rtl"
-        ></textarea>
-        <div class="mt-4">
-            <button onclick="updateText()" class="ancient-button">📜 עדכן טקסט</button>
+  <button onclick="updateText()" class="ancient-button">✍ רשום בכתב עברי קדום</button>
+
+  <table>
+    <tr>
+      <td class="scroll-cell">
+        <div id="displayText" class="hebrew-text">
+          ברוכים הבאים למחולל המגילה
         </div>
-    </div>
+      </td>
+    </tr>
+  </table>
 
-    <div class="max-w-5xl mx-auto mb-10">
-        <table class="w-full">
-            <tr>
-                <td class="scroll-cell">
-                    <div id="displayText" class="hebrew-text">
-                        ברוכים הבאים למחולל המגילה
-                    </div>
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <script>
-        function updateText() {
-            const input = document.getElementById('hebrewInput').value.trim();
-            const display = document.getElementById('displayText');
-            display.textContent = input || 'ברוכים הבאים למחולל המגילה';
-        }
-    </script>
+  <script>
+    function updateText() {
+      const input = document.getElementById('hebrewInput').value.trim();
+      const display = document.getElementById('displayText');
+      display.textContent = input || 'ברוכים הבאים למחולל המגילה';
+    }
+  </script>
 
 </body>
 </html>
